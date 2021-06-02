@@ -1,4 +1,6 @@
 # Urigami
+[![npm](https://img.shields.io/npm/dt/urigami)](https://www.npmjs.com/package/urigami)
+[![bundlephobia](https://badgen.net/bundlephobia/minzip/urigami@0.0.2)](https://bundlephobia.com/result?p=urigami@0.0.2)
 
 A tiny library providing parsing and joining urls
 
@@ -10,7 +12,7 @@ npm install urigami
 ## Usage
 
 ```js
-import {urlJoin, urlParse} from 'urigami'
+const {urlJoin, urlParse} = require('urigami')
 
 urlJoin('http://a.com/some/url', 'aaa/ccc', 'bbb/ddd') // http://a.com/some/url/aaa/ccc/bbb/ddd/
 urlJoin('http://a.com/some/url', '../../ccc')          // http://a.com/ccc/
