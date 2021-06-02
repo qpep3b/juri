@@ -1,5 +1,5 @@
 {
-  "name": "juri",
+  "name": "urigami",
   "version": "0.0.1",
   "description": "A tiny library providing parsing and joining urls",
   "main": "lib/index.js",
@@ -31,7 +31,7 @@
     "url": "git@github.com:qpep3b/juri.git"
   },
   "bugs": {
-      "url": "https://github.com/qpep3b/juri/issues"
+      "url": "https://github.com/qpep3b/urigami/issues"
   },
-  "homepage": "https://github.com/qpep3b/juri/#readme"
+  "homepage": "https://github.com/qpep3b/urigami/#readme"
 }

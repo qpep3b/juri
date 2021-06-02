@@ -1,16 +1,16 @@
-# JURI
+# Urigami
 
 A tiny library providing parsing and joining urls
 
 ## Installation
 ```
-npm install juri
+npm install urigami
 ```
 
 ## Usage
 
 ```js
-import {urlJoin, urlParse} from 'juri'
+import {urlJoin, urlParse} from 'urigami'
 
 urlJoin('http://a.com/some/url', 'aaa/ccc', 'bbb/ddd') // http://a.com/some/url/aaa/ccc/bbb/ddd/
 urlJoin('http://a.com/some/url', '../../ccc')          // http://a.com/ccc/
