@@ -25,3 +25,18 @@ jobs:
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
+  
+  publish:
+    name: "Publish Module to NPM"
+    needs: test
+    # publish only when merged in master on original repo, not on PR
+    if: ${{ contains(github.ref, 'refs/tags/v') && needs.test.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: npm install
+      - run: npm run release
