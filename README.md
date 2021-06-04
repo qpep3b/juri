@@ -1,6 +1,7 @@
 # Urigami
 [![npm](https://img.shields.io/npm/dt/urigami)](https://www.npmjs.com/package/urigami)
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/urigami@0.0.2)](https://bundlephobia.com/result?p=urigami@0.0.2)
+[![codecov](https://codecov.io/gh/qpep3b/urigami/branch/master/graph/badge.svg)](https://codecov.io/gh/qpep3b/urigami)
 
 A tiny library providing parsing and joining urls
 
