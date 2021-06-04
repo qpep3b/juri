@@ -1,15 +1,4 @@
-/*
-WIP: suppeorting RFC 3986 specification:
-         foo://example.com:8042/over/there?name=ferret#nose
-         \_/   \______________/\_________/ \_________/ \__/
-          |           |            |            |        |
-       scheme     authority       path        query   fragment
-          |   _____________________|__
-         / \ /                        \
-         urn:example:animal:ferret:nose
-*/
-
-const SYMBOL_NOT_FOUND = -1
+import { splitOnce, normalizeParams } from './utils'
 
 export interface UrlParams {
     [param: string]: string | string[]
@@ -18,31 +7,34 @@ export interface UrlParams {
 export const parseParams = (params: string): UrlParams => {
     // Input: string like that: 'lorem=ipsum&foo=bar'
     if (params === undefined) return {}
-    const pairs = params.split('&')
-    return pairs.reduce((result, currentElement) => {
-        const [key, value] = currentElement.split('=')
+    const normalized = normalizeParams(params)
+    const pairs = normalized.split('&')
+    return pairs.reduce(mergeParams, {})
+}
 
-        if (value === undefined) return result
+export const mergeParams = (params: UrlParams, keyValuePair: string): UrlParams => {
+    const [key, value] = keyValuePair.split('=')
 
-        if (Object.keys(result).includes(key)) {
-            if (result[key] instanceof Array) {
-                return {
-                    ...result,
-                    [key]: [...result[key], value]
-                }
-            }
+    if (value === undefined) return params
 
+    if (Object.keys(params).includes(key)) {
+        if (params[key] instanceof Array) {
             return {
-                ...result,
-                [key]: [result[key], value]
+                ...params,
+                [key]: [...params[key], value],
             }
         }
 
         return {
-            ...result,
-            [key]: value
+            ...params,
+            [key]: [params[key] as string, value],
         }
-    }, {})
+    }
+
+    return {
+        ...params,
+        [key]: value,
+    }
 }
 
 export interface ParsedUrl {
@@ -50,6 +42,7 @@ export interface ParsedUrl {
     host: string
     port: number | null
     path: string
+    rawParams: string
     params: UrlParams | null
     fragment: string | null
 }
@@ -71,14 +64,15 @@ export interface ParsedUrl {
 */
 export const urlParse = (url: string): ParsedUrl => {
     const match = url.match(
-        /^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/   //  RFC 3986 [page 51]
+        /^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/, //  RFC 3986 [page 51]
     )
 
     const schema = match[2] || null
     const source = match[4] || ''
     const [host, port] = _parseSource(source)
     const path = match[5] || '/'
-    const params = parseParams(match[7])
+    const rawParams = match[7] || ''
+    const params = parseParams(rawParams)
     const fragment = match[9] || null
 
     return {
@@ -86,17 +80,13 @@ export const urlParse = (url: string): ParsedUrl => {
         host,
         port,
         path,
-        params, 
+        rawParams,
+        params,
         fragment,
     }
 }
 
 const _parseSource = (source: string): [string, number | null] => {
-    const colonIndex = source.indexOf(':')
-    if (colonIndex === SYMBOL_NOT_FOUND) {
-        return [source, null]
-    }
-
-    const [host, port] = [source.slice(0, colonIndex), source.slice(colonIndex+1)]
-    return [host, parseInt(port)]
+    const [host, port] = splitOnce(source, ':')
+    return [host, port ? parseInt(port) : null]
 }

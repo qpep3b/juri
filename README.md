@@ -15,9 +15,12 @@ npm install urigami
 ```js
 const {urlJoin, urlParse} = require('urigami')
 
-urlJoin('http://a.com/some/url', 'aaa/ccc', 'bbb/ddd') // http://a.com/some/url/aaa/ccc/bbb/ddd/
-urlJoin('http://a.com/some/url', '../../ccc')          // http://a.com/ccc/
-urlJoin('http://a.com', 'aaa/ccc', '/bbb/ddd')         // http://a.com/bbb/ddd/ (because /bbb/ddd is absolute)
+console.log(urlJoin('http://a.com/some/url', 'aaa/ccc', 'bbb/ddd'))
+// output: http://a.com/some/url/aaa/ccc/bbb/ddd/
+console.log(urlJoin('http://a.com/some/url', '../../ccc'))
+// output: http://a.com/ccc/
+console.log(urlJoin('http://a.com', 'aaa/ccc', '/bbb/ddd'))
+// output: http://a.com/bbb/ddd/ (because /bbb/ddd is absolute)
 
 urlParse('https://some-url.com:8122/some/internal/location?lorem=ipsum&foo=bar#page-fragment')
 /* returns
@@ -35,9 +38,24 @@ urlParse('https://some-url.com:8122/some/internal/location?lorem=ipsum&foo=bar#p
 */
 ```
 
-## Coming features
-* Joining urls with request params (now not working)
+## Important info about joining urls
+* incoming relative url is joined to current path
 ```js
-// Works wrong (expected http://a.com/some_url/internal/?a=b)
-urlJoin('http://a.com/some_url?a=b', 'internal')  // returns 'http://a.com/some_url/internal'
+urlJoin('http://a.com/some/url', 'aaa/ccc')
+// returns 'http://a.com/some/url/aaa/ccc/'
+```
+* incoming absolute path rewrites current
+```js
+urlJoin('http://a.com', 'aaa/ccc', '/bbb/ddd')
+// returns: 'http://a.com/bbb/ddd/'
+```
+* query params are always merging
+```js
+urlJoin('http://a.com/some_url?a=b', 'internal?c=d')
+// returns: 'http://a.com/some_url/internal/?a=b&c=d'
+```
+* every incoming fragment rewrites current fragment 
+```js
+urlJoin('http://a.com/some_url?a=b#existing-fragment', 'internal_path#new-fragment')
+// returns: 'http://a.com/some_url/internal_path/?a=b#new-fragment'
 ```

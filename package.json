@@ -1,37 +1,44 @@
 {
-  "name": "urigami",
-  "version": "0.0.2",
-  "description": "A tiny library providing parsing and joining urls",
-  "main": "lib/index.js",
-  "files": [
-    "lib",
-    "README.md"
-  ],
-  "scripts": {
-    "test": "jest",
-    "tscheck": "tsc --noEmit",
-    "build": "rimraf lib/ && babel --extensions .ts --ignore ./src/**/tests/**/* ./src --out-dir lib",
-    "release": "npm run build && npm publish"
-  },
-  "author": "Andrey Mikhin <mikhinandrei@gmail.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "@babel/cli": "^7.14.3",
-    "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.4",
-    "@babel/preset-typescript": "^7.13.0",
-    "@types/jest": "^26.0.23",
-    "jest": "^27.0.3",
-    "prettier": "^2.3.0",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.3.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:qpep3b/juri.git"
-  },
-  "bugs": {
-      "url": "https://github.com/qpep3b/urigami/issues"
-  },
-  "homepage": "https://github.com/qpep3b/urigami/#readme"
+    "name": "urigami",
+    "version": "0.0.2",
+    "description": "A tiny library providing parsing and joining urls",
+    "keywords": [
+        "url",
+        "uri",
+        "parse",
+        "join"
+    ],
+    "main": "lib/index.js",
+    "files": [
+        "lib",
+        "README.md"
+    ],
+    "scripts": {
+        "test": "jest --coverage",
+        "tscheck": "tsc --noEmit",
+        "build": "rimraf lib/ && babel --extensions .ts --ignore ./src/**/tests/**/* ./src --out-dir lib",
+        "release": "npm run build && npm publish",
+        "prettify": "prettier --write ./src"
+    },
+    "author": "Andrey Mikhin <mikhinandrei@gmail.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/cli": "^7.14.3",
+        "@babel/core": "^7.14.3",
+        "@babel/preset-env": "^7.14.4",
+        "@babel/preset-typescript": "^7.13.0",
+        "@types/jest": "^26.0.23",
+        "jest": "^27.0.3",
+        "prettier": "^2.3.0",
+        "rimraf": "^3.0.2",
+        "typescript": "^4.3.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:qpep3b/juri.git"
+    },
+    "bugs": {
+        "url": "https://github.com/qpep3b/urigami/issues"
+    },
+    "homepage": "https://github.com/qpep3b/urigami/#readme"
 }
